@@ -33,7 +33,7 @@ export default function Order() {
   }
 
   return (
-    <div className="order">
+    <div className="Order">
       <h2>Create Order</h2>
       <form>
         <div>
