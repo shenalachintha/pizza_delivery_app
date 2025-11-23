@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ContactlazyImport } from './routes/contact_lazy'
 
 // Create Virtual Routes
 
@@ -32,6 +33,11 @@ const OrderLazyRoute = OrderLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/order.lazy').then((d) => d.Route))
 
+const ContactlazyRoute = ContactlazyImport.update({
+  path: '/contact_lazy',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -46,6 +52,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact_lazy': {
+      id: '/contact_lazy'
+      path: '/contact_lazy'
+      fullPath: '/contact_lazy'
+      preLoaderRoute: typeof ContactlazyImport
       parentRoute: typeof rootRoute
     }
     '/order': {
@@ -69,12 +82,14 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/contact_lazy': typeof ContactlazyRoute
   '/order': typeof OrderLazyRoute
   '/past': typeof PastLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/contact_lazy': typeof ContactlazyRoute
   '/order': typeof OrderLazyRoute
   '/past': typeof PastLazyRoute
 }
@@ -82,27 +97,30 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/contact_lazy': typeof ContactlazyRoute
   '/order': typeof OrderLazyRoute
   '/past': typeof PastLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/order' | '/past'
+  fullPaths: '/' | '/contact_lazy' | '/order' | '/past'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/order' | '/past'
-  id: '__root__' | '/' | '/order' | '/past'
+  to: '/' | '/contact_lazy' | '/order' | '/past'
+  id: '__root__' | '/' | '/contact_lazy' | '/order' | '/past'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  ContactlazyRoute: typeof ContactlazyRoute
   OrderLazyRoute: typeof OrderLazyRoute
   PastLazyRoute: typeof PastLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  ContactlazyRoute: ContactlazyRoute,
   OrderLazyRoute: OrderLazyRoute,
   PastLazyRoute: PastLazyRoute,
 }
@@ -120,12 +138,16 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/contact_lazy",
         "/order",
         "/past"
       ]
     },
     "/": {
       "filePath": "index.lazy.jsx"
+    },
+    "/contact_lazy": {
+      "filePath": "contact_lazy.jsx"
     },
     "/order": {
       "filePath": "order.lazy.jsx"
