@@ -52,3 +52,6 @@ Thumbs.db
 # Optional caches
 .parcel-cache/
 .cache/
+
+# Test coverage reports
+coverage/
